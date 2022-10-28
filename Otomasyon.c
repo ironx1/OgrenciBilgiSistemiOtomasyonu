@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 typedef struct
 {
@@ -11,9 +10,14 @@ typedef struct
 
 int main(int argc, char const *argv[])
 {
-    int schoolNumber,temp;
-    Student myStudents[5];
-    for (int i = 0; i < 5; i++)
+    FILE* veriTabani;
+    int s;
+    veriTabani = fopen("database.txt","a");
+    printf("Öğrenci Sayısını Giriniz: ");
+    scanf("%d",&s);
+    Student myStudents[s];
+
+    for (int i = 0; i < s; i++)
     {
         printf("Enter your school number: ");
         scanf("%d",&myStudents[i].sNum);
@@ -38,19 +42,14 @@ int main(int argc, char const *argv[])
         
         myStudents[i].Average = (float)myStudents[i].midTerm*(float)(0.4) + (float)myStudents[i].Final*(float)(0.6);
     }
-    
-    printf("Enter the school number of the student you want to check: ");
-    scanf("%d",&schoolNumber);
-
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < s; i++)
     {
-        if (schoolNumber==myStudents[i].sNum)
-        {
-            temp = i;
-        }
-        
+        fprintf(veriTabani,"Okul Numarası: %d\n",myStudents[i].sNum);
+        fprintf(veriTabani,"İsim: %s\n",myStudents[i].Name);
+        fprintf(veriTabani,"Vize Notu: %hd\n",myStudents[i].midTerm);
+        fprintf(veriTabani,"Final Notu: %hd\n",myStudents[i].Final);
+        fprintf(veriTabani,"Not Ortalaması: %.2f\n\n",myStudents[i].Average);
     }
-    
-    printf("Name: %s\nSchool Number: %d\nVize: %hd\nFinal: %hd\nAverage: %.2f\n",myStudents[temp].Name,myStudents[temp].sNum,myStudents[temp].midTerm,myStudents[temp].Final,myStudents[temp].Average);
+    fclose(veriTabani);
     return 0;
 }
